@@ -5,16 +5,14 @@ import ContentTitle from "./ContentTitle";
 import api from "../api/api-connections";
 import FormContainer from "./FormContainer";
 import ListItem from "./ListItem";
+import { BsPlusCircleFill } from 'react-icons/bs'
+import { MdOutlineRemoveCircle } from 'react-icons/md'
 
 export default function LSE() {
 
     type FormData = {
         posicao?: number | undefined,
         valor?: number | undefined
-    }
-
-    type RemoveItem = {
-        posicao: number | undefined
     }
 
     const [list, setList] = useState<number[]>([])
@@ -74,37 +72,39 @@ export default function LSE() {
     }, [clean])
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col w-3/5 items-center align-between">
             <ContentTitle>Lista simplismente encadeada</ContentTitle>
             <div className="flex">
                 <FormContainer title="Adicionar">
-                    <form className="flex font-principal flex-col align-center w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                    <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
                         onSubmit={save}>
-                        <input className='flex  bg-slate-200 focus:outline-none p-2 my-2 rounded-lg'
-                            type="number"
-                            placeholder="Posição"
-                            onChange={(e: any) => handleChange(e)}
-                            name="posicao"
-                            value={formData.posicao}
-                            required
-                        />
-                        <input className='flex bg-slate-200 focus:outline-none p-2 rounded-lg'
-                            type="number"
-                            placeholder="Valor"
-                            onChange={(e: any) => handleChange(e)}
-                            name="valor"
-                            value={formData.valor}
-                            required
-                        />
-                        <button className="flex items-center justify-center font-principal text-2xl mt-6 text-white  bg-green-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
-                            Salvar
+                        <section className="flex relative flex-col mr-2">
+                            <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
+                                type="number"
+                                placeholder="Posição"
+                                onChange={(e: any) => handleChange(e)}
+                                name="posicao"
+                                value={formData.posicao}
+                                required
+                            />
+                            <input className='flex bg-slate-200 w-full focus:outline-none p-2 rounded-lg'
+                                type="number"
+                                placeholder="Valor"
+                                onChange={(e: any) => handleChange(e)}
+                                name="valor"
+                                value={formData.valor}
+                                required
+                            />
+                        </section>
+                        <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-green-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
+                            <BsPlusCircleFill size={42} />
                         </button>
                     </form>
                 </FormContainer>
                 <FormContainer title="Remover">
-                    <form className="flex font-principal  h-full flex-col align-center w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                    <form className="flex relative font-principal w-3/5  h-full align-center w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
                         onSubmit={remove}>
-                        <input className='flex  bg-slate-200 focus:outline-none p-2 my-2 rounded-lg'
+                        <input className='flex  w-full bg-slate-200 focus:outline-none p-2 mr-2 rounded-lg'
                             type="number"
                             placeholder="Posição"
                             onChange={(e: any) => setRemoveItem(parseInt(e.target.value))}
@@ -112,14 +112,14 @@ export default function LSE() {
                             value={removeItem}
                             required
                         />
-                        <button className="flex items-center justify-center font-principal text-2xl mt-16 text-white  bg-red-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
-                            Remover
+                        <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-red-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
+                            <MdOutlineRemoveCircle size={42} />
                         </button>
                     </form>
                 </FormContainer>
             </div>
             <div className="flex my-10">
-               
+
                 {list.map(item => <ListItem>{item}</ListItem>)}
             </div>
         </div >
