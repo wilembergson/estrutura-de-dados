@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ContentTitle from "./ContentTitle";
 import api from "../api/api-connections";
 import FormContainer from "./FormContainer";
+import ListItem from "./ListItem";
 
 export default function LSE() {
 
@@ -101,7 +102,7 @@ export default function LSE() {
                     </form>
                 </FormContainer>
                 <FormContainer title="Remover">
-                    <form className="flex font-principal flex-col align-center w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                    <form className="flex font-principal  h-full flex-col align-center w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
                         onSubmit={remove}>
                         <input className='flex  bg-slate-200 focus:outline-none p-2 my-2 rounded-lg'
                             type="number"
@@ -111,14 +112,15 @@ export default function LSE() {
                             value={removeItem}
                             required
                         />
-                        <button className="flex items-center justify-center font-principal text-2xl mt-6 text-white  bg-red-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
+                        <button className="flex items-center justify-center font-principal text-2xl mt-16 text-white  bg-red-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
                             Remover
                         </button>
                     </form>
                 </FormContainer>
             </div>
             <div className="flex my-10">
-                {list.map(item => <h1 className="flex m-5">{item}</h1>)}
+               
+                {list.map(item => <ListItem>{item}</ListItem>)}
             </div>
         </div >
     )
