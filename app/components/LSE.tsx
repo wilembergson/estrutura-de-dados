@@ -47,8 +47,8 @@ export default function LSE() {
                 valor: 0
             })
             updatePage()
-        } catch (error) {
-            console.log(error)
+        } catch (error: any) {
+            alert(error.response.data)
         }
     }
 
@@ -58,8 +58,8 @@ export default function LSE() {
             await api.removeLSE(removeItem!)
             setRemoveItem(0)
             updatePage()
-        } catch (error) {
-            console.log(error)
+        } catch (error: any) {
+            alert(error.response.data)
         }
     }
 
