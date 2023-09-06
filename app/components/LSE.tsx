@@ -72,9 +72,9 @@ export default function LSE() {
     }, [clean])
 
     return (
-        <div className="flex flex-col w-3/5 items-center align-between">
+        <div className="flex flex-col w-full items-center align-between">
             <ContentTitle>Lista simplismente encadeada</ContentTitle>
-            <div className="flex">
+            <div className="flex py-5 shadow-md">
                 <FormContainer title="Adicionar">
                     <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
                         onSubmit={save}>
@@ -118,9 +118,12 @@ export default function LSE() {
                     </form>
                 </FormContainer>
             </div>
-            <div className="flex my-10">
-
-                {list.map(item => <ListItem>{item}</ListItem>)}
+            <div className="flex justify-center my-16 flex-wrap w-5/6">
+                {list.length !== 0 ?
+                    list.map(item => <ListItem>{item}</ListItem>)
+                    : <h1 className="flex font-principal font-black text-gray-clear-2 text-4xl">
+                        Lista vazia
+                    </h1>}
             </div>
         </div >
     )
