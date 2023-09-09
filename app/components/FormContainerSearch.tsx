@@ -5,9 +5,9 @@ type Props = {
     children: ReactNode
 }
 
-export default function FormContainer({ title, children }: Props) {
+export default function FormContainerSearch({ title, children }: Props) {
     return (
-        <section className="flex w-auto flex-col mx-5">
+        <section className="flex flex-col mx-5 bg-lime-300 w-80">
             <h3 className="flex font-principal rounded-t-lg justify-center mr-0 bg-yellow text-white w-20">
                 {title}
             </h3>
