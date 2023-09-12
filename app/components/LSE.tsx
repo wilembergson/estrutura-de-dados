@@ -77,17 +77,26 @@ export default function LSE() {
             alert(error.response.data)
         }
     }
+
+
+    const [selectedOption, setSelectedOption] = useState('');
+    const [posOrVal, setPosOrVal] = useState<number | undefined>(undefined)
+    const handleOptionChange = (e: any) => {
+        setSelectedOption(e.target.value);
+    };
+
     async function obterItem(e: any) {
         e.preventDefault()
         try {
-            console.log(obterItemForm)
-            const res = await api.obterLSE(obterItemForm)
+            const value = `${selectedOption}${posOrVal}`
+            const res = await api.obterLSE(value)
             console.log(res.data)
             setItemObtido(res.data)
             updatePage()
         } catch (error: any) {
             console.log(error)
             alert(error.response.data)
+            setPosOrVal(undefined)
             setItemObtido(undefined)
         }
     }
@@ -153,24 +162,37 @@ export default function LSE() {
                             <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
                                 type="number"
                                 placeholder="Posição"
-                                onChange={(e: any) => handleChangeItem(e)}
-                                name="pos"
-                                value={obterItemForm.pos}
+                                onChange={(e: any) => setPosOrVal(e.target.value)}
+                                name="posOrVal"
+                                value={posOrVal}
                             />
-                            {/*<input className='flex bg-slate-200 w-full focus:outline-none p-2 rounded-lg'
-                                type="number"
-                                placeholder="Valor"
-                                onChange={(e: any) => handleChangeItem(e)}
-                                name="valor"
-                                value={obterItemForm.val}
-    />*/}
                         </section>
                         <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-blue-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
                             <ImSearch size={40} />
                         </button>
                     </form>
+                    <div className="flex font-principal font-black text-gray justify-between mt-2">
+                        <label className="hover:cursor-pointer">
+                            <input className="hover:cursor-pointer"
+                                type="radio"
+                                value="pos="
+                                checked={selectedOption === 'pos='}
+                                onChange={handleOptionChange}
+                            />
+                            Posição
+                        </label>
+                        <label className="hover:cursor-pointer">
+                            <input className="hover:cursor-pointer"
+                                type="radio"
+                                value="val="
+                                checked={selectedOption === 'val='}
+                                onChange={handleOptionChange}
+                            />
+                            Valor
+                        </label>
+                    </div>
                 </FormContainer>
-                <h1 className="flex font-principal font-black items-center text-6xl p-4 rounded-xl mr-6 text-yellow bg-lime-600">
+                <h1 className="flex font-principal font-black items-center text-6xl p-4 rounded-xl mx-6 text-yellow bg-lime-600">
                     {itemObtido ? itemObtido : 'N'}
                 </h1>
             </div>

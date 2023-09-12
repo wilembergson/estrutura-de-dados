@@ -25,9 +25,8 @@ async function removeLSE(data: number) {
     await axios.delete(`${URL}/lista-encadeada/remover/${data}`)
 }
 
-async function obterLSE(data: ObterItem) {
-    console.log(data)
-    return await axios.get(`${URL}/lista-encadeada/obter-item/${data.pos}`)
+async function obterLSE(value: string) {
+    return await axios.get(`${URL}/lista-encadeada/obter-item?${value}`)
 }
 
 const api = {
