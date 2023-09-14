@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import ContentTitle from "./ContentTitle";
+import ContentTitle from "../components/ContentTitle";
 import api from "../api/api-connections";
-import FormContainer from "./FormContainer";
-import ListItem from "./ListItem";
+import FormContainer from "../components/FormContainer";
+import ListItem from "../components/ListItem";
 import { BsPlusCircleFill } from 'react-icons/bs'
 import { MdDeleteForever } from 'react-icons/md'
 import { ImSearch } from 'react-icons/im'
+import Header from "../components/Header";
 
 export default function LSE() {
 
@@ -111,7 +112,8 @@ export default function LSE() {
 
     return (
         <div className="flex flex-col w-full items-center align-between">
-            <ContentTitle>Lista simplismente encadeada</ContentTitle>
+            <Header/>
+            <ContentTitle>Lista Sequencial</ContentTitle>
             <div className="flex py-5 shadow-md">
                 <FormContainer title="Adicionar">
                     <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
