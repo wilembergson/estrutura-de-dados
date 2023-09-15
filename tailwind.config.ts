@@ -19,7 +19,8 @@ const config: Config = {
         'yellow2': '#FACC2E',
         'gray': '#424242',
         'gray-clear': '#585858',
-        'gray-clear-2': '#DEDCDB'
+        'gray-clear-2': '#DEDCDB',
+        'main-item': '#F9F9F9'
       }
     },
   },

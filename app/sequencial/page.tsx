@@ -9,6 +9,8 @@ import { BsPlusCircleFill } from 'react-icons/bs'
 import { MdDeleteForever } from 'react-icons/md'
 import { ImSearch } from 'react-icons/im'
 import Header from "../components/Header";
+import HeaderNav from "../components/HeaderNav";
+import OperationsContainer from "../components/OperationsContainer";
 
 export default function LSE() {
 
@@ -112,9 +114,11 @@ export default function LSE() {
 
     return (
         <div className="flex flex-col w-full items-center align-between">
-            <Header/>
+            <Header>
+                <HeaderNav/>
+            </Header>
             <ContentTitle>Lista Sequencial</ContentTitle>
-            <div className="flex py-5 shadow-md">
+            <OperationsContainer>
                 <FormContainer title="Adicionar">
                     <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
                         onSubmit={save}>
@@ -197,7 +201,7 @@ export default function LSE() {
                 <h1 className="flex font-principal font-black items-center text-6xl p-4 rounded-xl mx-6 text-yellow bg-lime-600">
                     {itemObtido ? itemObtido : 'N'}
                 </h1>
-            </div>
+            </OperationsContainer>
             <div className="flex justify-center my-16 flex-wrap w-5/6">
                 {list.length !== 0 ?
                     list.map((item: any) => <ListItem selectedItem={item.conteudo === itemObtido ? true : false}>{item}</ListItem>)

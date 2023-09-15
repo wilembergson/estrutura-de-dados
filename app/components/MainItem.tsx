@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { ReactNode } from 'react'
 
 type Props = {
@@ -7,14 +7,12 @@ type Props = {
 }
 
 export default function MainItem({ children, route }: Props) {
-    const router = useRouter()
 
     return (
-        <section className="flex flex-col justify-center items-center font-principal font-black text-2xl text-yellow hover:bg-purple-500
-            hover:border-purple-500 transition duration-500 border-4 border-yellow p-10 m-4 rounded-xl
-            cursor-pointer w-64"
-            onClick={() => router.push(route)}>
+        <Link href={route} className="flex flex-col justify-center items-center font-principal font-black text-2xl text-yellow
+            bg-main-item hover:bg-purple-500 transition duration-500 p-10 m-4 rounded-xl
+            cursor-pointer w-64 shadow-lg">
             {children}
-        </section>
+        </Link >
     )
 }
