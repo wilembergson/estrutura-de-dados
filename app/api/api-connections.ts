@@ -2,7 +2,7 @@ import axios from "axios";
 
 const URL = 'http://localhost:8080'
 
-type NewLSE = {
+type NewData = {
     posicao?: number | undefined,
     valor?: number | undefined
 }
@@ -12,11 +12,40 @@ type ObterItem = {
     val?: number | undefined
 }
 
+//LISTA SEQUENCIAL ENDPOINTS
+async function listSequencial() {
+    return await axios.get(`${URL}/lista-sequencial/obterlista`)
+}
+
+async function saveSequencial(data: NewData) {
+    await axios.post(`${URL}/lista-sequencial/adicionar`, data)
+}
+
+async function removeSequencial(data: number) {
+    await axios.delete(`${URL}/lista-sequencial/remover/${data}`)
+}
+
+async function obterSequencial(value: string) {
+    return await axios.get(`${URL}/lista-sequencial/obter-item?${value}`)
+}
+
+async function obterTamanhoMax() {
+    return await axios.get(`${URL}/lista-sequencial/tamanho-max`)
+}
+
+async function setTamanhoMax(tamanho: number) {
+    return await axios.post(`${URL}/lista-sequencial/tamanho-max`, {
+        tamanho 
+    })
+}
+
+
+//LSE ENDPOINTS
 async function listLSE() {
     return await axios.get(`${URL}/lista-encadeada/obterlista`)
 }
 
-async function saveLSE(data: NewLSE) {
+async function saveLSE(data: NewData) {
     console.log(data)
     await axios.post(`${URL}/lista-encadeada/adicionar`, data)
 }
@@ -33,7 +62,13 @@ const api = {
     listLSE,
     saveLSE,
     removeLSE,
-    obterLSE
+    obterLSE,
+    listSequencial,
+    saveSequencial,
+    removeSequencial,
+    obterSequencial,
+    obterTamanhoMax,
+    setTamanhoMax
 }
 
 export default api

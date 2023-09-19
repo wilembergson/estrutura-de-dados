@@ -4,13 +4,16 @@ import { useEffect, useState } from "react";
 import ContentTitle from "../components/ContentTitle";
 import api from "../api/api-connections";
 import FormContainer from "../components/FormContainer";
-import ListItem from "../components/ListItem";
 import { BsPlusCircleFill } from 'react-icons/bs'
 import { MdDeleteForever } from 'react-icons/md'
 import { ImSearch } from 'react-icons/im'
 import Header from "../components/Header";
 import HeaderNav from "../components/HeaderNav";
 import OperationsContainer from "../components/OperationsContainer";
+import ListItemSequencial from "../components/ListItemSequencial";
+
+import Swal from 'sweetalert2';
+//import withReactContent from 'sweetalert2-react-content';
 
 export default function LSE() {
 
@@ -26,6 +29,28 @@ export default function LSE() {
 
     const [list, setList] = useState<number[]>([])
     const [clean, setClean] = useState<number>(0)
+    const [tamahoMax, setTamanhoMax] = useState<number>(0)
+
+    const showAlertWithInput = async () => {
+        const { value: inputValue } = await Swal.fire({
+          title: 'Digite o tamanho máximo da lista!',
+          input: 'number',
+          inputPlaceholder: 'Digite aqui',
+          showCancelButton: true,
+          confirmButtonText: 'OK',
+        });
+      
+        if (inputValue) {
+            await api.setTamanhoMax(inputValue)
+            updatePage()
+            //Swal.fire(`Você digitou: ${inputValue}`);
+        }
+      };
+
+      const showErrorAlert = async (message:string) => {
+        Swal.fire(message);
+
+      };
 
     const [formData, setFormData] = useState<FormData>({
         posicao: undefined,
@@ -40,7 +65,7 @@ export default function LSE() {
 
     async function getList() {
         try {
-            const res = await api.listLSE()
+            const res = await api.listSequencial()
             setList(res.data)
         } catch (error) {
             console.log(error)
@@ -59,25 +84,25 @@ export default function LSE() {
         e.preventDefault()
         try {
             console.log(formData)
-            await api.saveLSE(formData)
+            await api.saveSequencial(formData)
             setFormData({
                 posicao: 0,
                 valor: 0
             })
             updatePage()
         } catch (error: any) {
-            alert(error.response.data)
+            showErrorAlert(error.response.data)
         }
     }
 
     async function remove(e: any) {
         e.preventDefault()
         try {
-            await api.removeLSE(removeItem!)
+            await api.removeSequencial(removeItem!)
             setRemoveItem(0)
             updatePage()
         } catch (error: any) {
-            alert(error.response.data)
+            showErrorAlert(error.response.data)
         }
     }
 
@@ -86,19 +111,19 @@ export default function LSE() {
     const [posOrVal, setPosOrVal] = useState<number | undefined>(undefined)
     const handleOptionChange = (e: any) => {
         setSelectedOption(e.target.value);
-    };
+    }
 
     async function obterItem(e: any) {
         e.preventDefault()
         try {
             const value = `${selectedOption}${posOrVal}`
-            const res = await api.obterLSE(value)
+            const res = await api.obterSequencial(value)
             console.log(res.data)
             setItemObtido(res.data)
             updatePage()
         } catch (error: any) {
             console.log(error)
-            alert(error.response.data)
+            showErrorAlert(error.response.data)
             setPosOrVal(undefined)
             setItemObtido(undefined)
         }
@@ -108,17 +133,34 @@ export default function LSE() {
         setClean(Math.floor(Math.random() * (1 - 100 + 1)) + 1)
     }
 
+    async function checkTamanhoMax() {
+        try {
+            const res = await api.obterTamanhoMax()
+            setTamanhoMax(res.data)
+            updatePage()
+        } catch (error: any) {
+            showAlertWithInput()
+        }
+    }
+
+
     useEffect(() => {
+        checkTamanhoMax()
         getList()
     }, [clean, itemObtido])
 
     return (
         <div className="flex flex-col w-full items-center align-between">
             <Header>
-                <HeaderNav/>
+                <HeaderNav />
             </Header>
             <ContentTitle>Lista Sequencial</ContentTitle>
-            <OperationsContainer>
+            <button className="flex flex-col justify-center items-center font-principal text-lg text-yellow
+            bg-main-item hover:bg-purple-500 transition duration-500 p-2 m-4 rounded-lg border-none
+            cursor-pointer shadow-md" onClick={showAlertWithInput}>
+                Definir tamanho máximo
+            </button>
+            <OperationsContainer disabled={tamahoMax === 0 ? 'disabled': ''}>
                 <FormContainer title="Adicionar">
                     <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
                         onSubmit={save}>
@@ -167,7 +209,7 @@ export default function LSE() {
                         <section className="flex relative flex-col mr-2">
                             <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
                                 type="number"
-                                placeholder="Posição"
+                                placeholder="num"
                                 onChange={(e: any) => setPosOrVal(e.target.value)}
                                 name="posOrVal"
                                 value={posOrVal}
@@ -204,7 +246,7 @@ export default function LSE() {
             </OperationsContainer>
             <div className="flex justify-center my-16 flex-wrap w-5/6">
                 {list.length !== 0 ?
-                    list.map((item: any) => <ListItem selectedItem={item.conteudo === itemObtido ? true : false}>{item}</ListItem>)
+                    list.map((item: any) => <ListItemSequencial selectedItem={item === itemObtido ? true : false}>{item}</ListItemSequencial>)
                     : <h1 className="flex font-principal font-black text-gray-clear-2 text-4xl">
                         Lista vazia
                     </h1>}

@@ -21,3 +21,9 @@ body {
   background: #fff
     rgb(var(--background-start-rgb));
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5; 
+
+}
