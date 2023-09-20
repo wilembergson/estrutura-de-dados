@@ -13,6 +13,7 @@ import OperationsContainer from "../components/OperationsContainer";
 import ListItemSequencial from "../components/ListItemSequencial";
 
 import Swal from 'sweetalert2';
+import LoopComponentsItems from "../components/LoopComponentsItems";
 //import withReactContent from 'sweetalert2-react-content';
 
 export default function LSE() {
@@ -33,24 +34,24 @@ export default function LSE() {
 
     const showAlertWithInput = async () => {
         const { value: inputValue } = await Swal.fire({
-          title: 'Digite o tamanho máximo da lista!',
-          input: 'number',
-          inputPlaceholder: 'Digite aqui',
-          showCancelButton: true,
-          confirmButtonText: 'OK',
+            title: 'Digite o tamanho máximo da lista!',
+            input: 'number',
+            inputPlaceholder: 'Digite aqui',
+            showCancelButton: true,
+            confirmButtonText: 'OK',
         });
-      
+
         if (inputValue) {
             await api.setTamanhoMax(inputValue)
             updatePage()
             //Swal.fire(`Você digitou: ${inputValue}`);
         }
-      };
+    };
 
-      const showErrorAlert = async (message:string) => {
+    const showErrorAlert = async (message: string) => {
         Swal.fire(message);
 
-      };
+    };
 
     const [formData, setFormData] = useState<FormData>({
         posicao: undefined,
@@ -124,7 +125,7 @@ export default function LSE() {
         } catch (error: any) {
             console.log(error)
             showErrorAlert(error.response.data)
-            setPosOrVal(undefined)
+            //setPosOrVal(undefined)
             setItemObtido(undefined)
         }
     }
@@ -143,6 +144,11 @@ export default function LSE() {
         }
     }
 
+    function renderList(){
+        for(let i=0; i<tamahoMax -list.length; i++){
+            <div>N</div>
+        }
+    }
 
     useEffect(() => {
         checkTamanhoMax()
@@ -155,12 +161,17 @@ export default function LSE() {
                 <HeaderNav />
             </Header>
             <ContentTitle>Lista Sequencial</ContentTitle>
-            <button className="flex flex-col justify-center items-center font-principal text-lg text-yellow
-            bg-main-item hover:bg-purple-500 transition duration-500 p-2 m-4 rounded-lg border-none
-            cursor-pointer shadow-md" onClick={showAlertWithInput}>
-                Definir tamanho máximo
-            </button>
-            <OperationsContainer disabled={tamahoMax === 0 ? 'disabled': ''}>
+            <section className="flex items-center justify-end w-1/2 px-1 font-principal text-gray">
+                <h2 className="font-black">
+                    Tamanho máximo: {tamahoMax}
+                </h2>
+                <button className="flex flex-col justify-center items-center font-principal text-lg text-yellow
+                    bg-main-item hover:bg-purple-500 transition duration-500 p-1 m-4 rounded-lg border-none
+                    cursor-pointer shadow-md" onClick={showAlertWithInput}>
+                    Definir
+                </button>
+            </section>
+            <OperationsContainer disabled={tamahoMax === 0 ? 'disabled' : ''}>
                 <FormContainer title="Adicionar">
                     <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
                         onSubmit={save}>
@@ -213,6 +224,7 @@ export default function LSE() {
                                 onChange={(e: any) => setPosOrVal(e.target.value)}
                                 name="posOrVal"
                                 value={posOrVal}
+                                required
                             />
                         </section>
                         <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-blue-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
@@ -245,11 +257,12 @@ export default function LSE() {
                 </h1>
             </OperationsContainer>
             <div className="flex justify-center my-16 flex-wrap w-5/6">
-                {list.length !== 0 ?
+                {tamahoMax > 0 ?
                     list.map((item: any) => <ListItemSequencial selectedItem={item === itemObtido ? true : false}>{item}</ListItemSequencial>)
                     : <h1 className="flex font-principal font-black text-gray-clear-2 text-4xl">
                         Lista vazia
                     </h1>}
+                <LoopComponentsItems length={tamahoMax - list.length}/>
             </div>
         </div >
     )
