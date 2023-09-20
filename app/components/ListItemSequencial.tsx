@@ -1,5 +1,3 @@
-import { HiArrowNarrowRight } from 'react-icons/hi'
-
 type Props = {
     children: any,
     selectedItem: boolean

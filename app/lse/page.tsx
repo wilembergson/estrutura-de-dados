@@ -11,6 +11,7 @@ import { ImSearch } from 'react-icons/im'
 import Header from "../components/Header";
 import HeaderNav from "../components/HeaderNav";
 import OperationsContainer from "../components/OperationsContainer";
+import alerts from "../utils/alerts";
 
 export default function LSE() {
 
@@ -66,7 +67,7 @@ export default function LSE() {
             })
             updatePage()
         } catch (error: any) {
-            alert(error.response.data)
+            alerts.showErrorAlert(error.response.data)
         }
     }
 
@@ -77,7 +78,7 @@ export default function LSE() {
             setRemoveItem(0)
             updatePage()
         } catch (error: any) {
-            alert(error.response.data)
+            alerts.showErrorAlert(error.response.data)
         }
     }
 
@@ -97,9 +98,7 @@ export default function LSE() {
             setItemObtido(res.data)
             updatePage()
         } catch (error: any) {
-            console.log(error)
-            alert(error.response.data)
-            setPosOrVal(undefined)
+            alerts.showErrorAlert(error.response.data)
             setItemObtido(undefined)
         }
     }
@@ -171,6 +170,7 @@ export default function LSE() {
                                 onChange={(e: any) => setPosOrVal(e.target.value)}
                                 name="posOrVal"
                                 value={posOrVal}
+                                required
                             />
                         </section>
                         <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-blue-500  py-1 rounded-lg hover:opacity-70 transition duration-500">

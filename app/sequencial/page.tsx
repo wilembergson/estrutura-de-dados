@@ -11,6 +11,7 @@ import Header from "../components/Header";
 import HeaderNav from "../components/HeaderNav";
 import OperationsContainer from "../components/OperationsContainer";
 import ListItemSequencial from "../components/ListItemSequencial";
+import alerts from '../utils/alerts'
 
 import Swal from 'sweetalert2';
 import LoopComponentsItems from "../components/LoopComponentsItems";
@@ -46,11 +47,6 @@ export default function LSE() {
             updatePage()
             //Swal.fire(`Você digitou: ${inputValue}`);
         }
-    };
-
-    const showErrorAlert = async (message: string) => {
-        Swal.fire(message);
-
     };
 
     const [formData, setFormData] = useState<FormData>({
@@ -92,7 +88,7 @@ export default function LSE() {
             })
             updatePage()
         } catch (error: any) {
-            showErrorAlert(error.response.data)
+            alerts.showErrorAlert(error.response.data)
         }
     }
 
@@ -103,7 +99,7 @@ export default function LSE() {
             setRemoveItem(0)
             updatePage()
         } catch (error: any) {
-            showErrorAlert(error.response.data)
+            alerts.showErrorAlert(error.response.data)
         }
     }
 
@@ -124,8 +120,7 @@ export default function LSE() {
             updatePage()
         } catch (error: any) {
             console.log(error)
-            showErrorAlert(error.response.data)
-            //setPosOrVal(undefined)
+            alerts.showErrorAlert(error.response.data)
             setItemObtido(undefined)
         }
     }
