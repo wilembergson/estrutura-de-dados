@@ -12,6 +12,8 @@ import Header from "../components/Header";
 import HeaderNav from "../components/HeaderNav";
 import OperationsContainer from "../components/OperationsContainer";
 import alerts from "../utils/alerts";
+import { useGlobalContext } from "../context/global-context";
+import Loading from "../components/Loading";
 
 export default function LSE() {
 
@@ -107,6 +109,11 @@ export default function LSE() {
         setClean(Math.floor(Math.random() * (1 - 100 + 1)) + 1)
     }
 
+    const { loading, setLoading } = useGlobalContext()
+    useEffect(() => {
+        setLoading(false)
+    }, [])
+
     useEffect(() => {
         getList()
     }, [clean, itemObtido])
@@ -116,99 +123,101 @@ export default function LSE() {
             <Header>
                 <HeaderNav />
             </Header>
-            <ContentTitle>Lista simplismente encadeada</ContentTitle>
-            <OperationsContainer>
-                <FormContainer title="Adicionar">
-                    <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
-                        onSubmit={save}>
-                        <section className="flex relative flex-col mr-2">
-                            <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
+            {loading ? <Loading /> : <>
+                <ContentTitle>Lista simplismente encadeada</ContentTitle>
+                <OperationsContainer>
+                    <FormContainer title="Adicionar">
+                        <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                            onSubmit={save}>
+                            <section className="flex relative flex-col mr-2">
+                                <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
+                                    type="number"
+                                    placeholder="Posição"
+                                    onChange={(e: any) => handleChange(e)}
+                                    name="posicao"
+                                    value={formData.posicao}
+                                    required
+                                />
+                                <input className='flex bg-slate-200 w-full focus:outline-none p-2 rounded-lg'
+                                    type="number"
+                                    placeholder="Valor"
+                                    onChange={(e: any) => handleChange(e)}
+                                    name="valor"
+                                    value={formData.valor}
+                                    required
+                                />
+                            </section>
+                            <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-green-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
+                                <BsPlusCircleFill size={42} />
+                            </button>
+                        </form>
+                    </FormContainer>
+                    <FormContainer title="Remover">
+                        <form className="flex relative font-principal w-3/5  h-full align-center w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                            onSubmit={remove}>
+                            <input className='flex  w-full bg-slate-200 focus:outline-none p-2 mr-2 rounded-lg'
                                 type="number"
                                 placeholder="Posição"
-                                onChange={(e: any) => handleChange(e)}
+                                onChange={(e: any) => setRemoveItem(parseInt(e.target.value))}
                                 name="posicao"
-                                value={formData.posicao}
+                                value={removeItem}
                                 required
                             />
-                            <input className='flex bg-slate-200 w-full focus:outline-none p-2 rounded-lg'
-                                type="number"
-                                placeholder="Valor"
-                                onChange={(e: any) => handleChange(e)}
-                                name="valor"
-                                value={formData.valor}
-                                required
-                            />
-                        </section>
-                        <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-green-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
-                            <BsPlusCircleFill size={42} />
-                        </button>
-                    </form>
-                </FormContainer>
-                <FormContainer title="Remover">
-                    <form className="flex relative font-principal w-3/5  h-full align-center w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
-                        onSubmit={remove}>
-                        <input className='flex  w-full bg-slate-200 focus:outline-none p-2 mr-2 rounded-lg'
-                            type="number"
-                            placeholder="Posição"
-                            onChange={(e: any) => setRemoveItem(parseInt(e.target.value))}
-                            name="posicao"
-                            value={removeItem}
-                            required
-                        />
-                        <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-red-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
-                            <MdDeleteForever size={44} />
-                        </button>
-                    </form>
-                </FormContainer>
-                <FormContainer title="Pesquisar">
-                    <form className="flex font-principal align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
-                        onSubmit={obterItem}>
-                        <section className="flex relative flex-col mr-2">
-                            <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
-                                type="number"
-                                placeholder="Posição"
-                                onChange={(e: any) => setPosOrVal(e.target.value)}
-                                name="posOrVal"
-                                value={posOrVal}
-                                required
-                            />
-                        </section>
-                        <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-blue-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
-                            <ImSearch size={40} />
-                        </button>
-                    </form>
-                    <div className="flex font-principal font-black text-gray justify-between mt-2">
-                        <label className="hover:cursor-pointer">
-                            <input className="hover:cursor-pointer"
-                                type="radio"
-                                value="pos="
-                                checked={selectedOption === 'pos='}
-                                onChange={handleOptionChange}
-                            />
-                            Posição
-                        </label>
-                        <label className="hover:cursor-pointer">
-                            <input className="hover:cursor-pointer"
-                                type="radio"
-                                value="val="
-                                checked={selectedOption === 'val='}
-                                onChange={handleOptionChange}
-                            />
-                            Valor
-                        </label>
-                    </div>
-                </FormContainer>
-                <h1 className="flex font-principal font-black items-center text-6xl p-4 rounded-xl mx-6 text-yellow bg-lime-600">
-                    {itemObtido ? itemObtido : 'N'}
-                </h1>
-            </OperationsContainer>
-            <div className="flex justify-center my-16 flex-wrap w-5/6">
-                {list.length !== 0 ?
-                    list.map((item: any) => <ListItem selectedItem={item.conteudo === itemObtido ? true : false}>{item}</ListItem>)
-                    : <h1 className="flex font-principal font-black text-gray-clear-2 text-4xl">
-                        Lista vazia
-                    </h1>}
-            </div>
+                            <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-red-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
+                                <MdDeleteForever size={44} />
+                            </button>
+                        </form>
+                    </FormContainer>
+                    <FormContainer title="Pesquisar">
+                        <form className="flex font-principal align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                            onSubmit={obterItem}>
+                            <section className="flex relative flex-col mr-2">
+                                <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
+                                    type="number"
+                                    placeholder="Posição"
+                                    onChange={(e: any) => setPosOrVal(e.target.value)}
+                                    name="posOrVal"
+                                    value={posOrVal}
+                                    required
+                                />
+                            </section>
+                            <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-blue-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
+                                <ImSearch size={40} />
+                            </button>
+                        </form>
+                        <div className="flex font-principal font-black text-gray justify-between mt-2">
+                            <label className="hover:cursor-pointer">
+                                <input className="hover:cursor-pointer"
+                                    type="radio"
+                                    value="pos="
+                                    checked={selectedOption === 'pos='}
+                                    onChange={handleOptionChange}
+                                />
+                                Posição
+                            </label>
+                            <label className="hover:cursor-pointer">
+                                <input className="hover:cursor-pointer"
+                                    type="radio"
+                                    value="val="
+                                    checked={selectedOption === 'val='}
+                                    onChange={handleOptionChange}
+                                />
+                                Valor
+                            </label>
+                        </div>
+                    </FormContainer>
+                    <h1 className="flex font-principal font-black items-center text-6xl p-4 rounded-xl mx-6 text-yellow bg-lime-600">
+                        {itemObtido ? itemObtido : 'N'}
+                    </h1>
+                </OperationsContainer>
+                <div className="flex justify-center my-16 flex-wrap w-5/6">
+                    {list.length !== 0 ?
+                        list.map((item: any) => <ListItem selectedItem={item.conteudo === itemObtido ? true : false}>{item}</ListItem>)
+                        : <h1 className="flex font-principal font-black text-gray-clear-2 text-4xl">
+                            Lista vazia
+                        </h1>}
+                </div>
+            </>}
         </div >
     )
 }

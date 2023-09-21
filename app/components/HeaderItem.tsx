@@ -1,6 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
+import { useGlobalContext } from '../context/global-context';
 
 type Props = {
     children: ReactNode;
@@ -9,10 +10,16 @@ type Props = {
 
 export default function HeaderItem({ children, route }: Props) {
     const router = useRouter()
+    const {setLoading} = useGlobalContext()
+
+    function goRoute(){
+        setLoading(true)
+        router.push(route)
+    }
     
     return (
-        <section className='flex mx-10 hover:text-yellow2 cursor-pointer' onClick={() => router.push(route)}>
+        <div className='flex mx-10 hover:text-yellow2 cursor-pointer' onClick={() => goRoute()}>
             {children}
-        </section>
+        </div>
     )
 }

@@ -15,7 +15,8 @@ import alerts from '../utils/alerts'
 
 import Swal from 'sweetalert2';
 import LoopComponentsItems from "../components/LoopComponentsItems";
-//import withReactContent from 'sweetalert2-react-content';
+import { useGlobalContext } from "../context/global-context";
+import Loading from "../components/Loading";
 
 export default function LSE() {
 
@@ -139,11 +140,10 @@ export default function LSE() {
         }
     }
 
-    function renderList(){
-        for(let i=0; i<tamahoMax -list.length; i++){
-            <div>N</div>
-        }
-    }
+    const { loading, setLoading } = useGlobalContext()
+    useEffect(() => {
+        setLoading(false)
+    }, [])
 
     useEffect(() => {
         checkTamanhoMax()
@@ -155,110 +155,112 @@ export default function LSE() {
             <Header>
                 <HeaderNav />
             </Header>
-            <ContentTitle>Lista Sequencial</ContentTitle>
-            <section className="flex items-center justify-end w-1/2 px-1 font-principal text-gray">
-                <h2 className="font-black">
-                    Tamanho máximo: {tamahoMax}
-                </h2>
-                <button className="flex flex-col justify-center items-center font-principal text-lg text-yellow
+            {loading ? <Loading /> : <>
+                <ContentTitle>Lista Sequencial</ContentTitle>
+                <section className="flex items-center justify-end w-1/2 px-1 font-principal text-gray">
+                    <h2 className="font-black">
+                        Tamanho máximo: {tamahoMax}
+                    </h2>
+                    <button className="flex flex-col justify-center items-center font-principal text-lg text-yellow
                     bg-main-item hover:bg-purple-500 transition duration-500 p-1 m-4 rounded-lg border-none
                     cursor-pointer shadow-md" onClick={showAlertWithInput}>
-                    Definir
-                </button>
-            </section>
-            <OperationsContainer disabled={tamahoMax === 0 ? 'disabled' : ''}>
-                <FormContainer title="Adicionar">
-                    <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
-                        onSubmit={save}>
-                        <section className="flex relative flex-col mr-2">
-                            <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
+                        Definir
+                    </button>
+                </section>
+                <OperationsContainer disabled={tamahoMax === 0 ? 'disabled' : ''}>
+                    <FormContainer title="Adicionar">
+                        <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                            onSubmit={save}>
+                            <section className="flex relative flex-col mr-2">
+                                <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
+                                    type="number"
+                                    placeholder="Posição"
+                                    onChange={(e: any) => handleChange(e)}
+                                    name="posicao"
+                                    value={formData.posicao}
+                                    required
+                                />
+                                <input className='flex bg-slate-200 w-full focus:outline-none p-2 rounded-lg'
+                                    type="number"
+                                    placeholder="Valor"
+                                    onChange={(e: any) => handleChange(e)}
+                                    name="valor"
+                                    value={formData.valor}
+                                    required
+                                />
+                            </section>
+                            <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-green-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
+                                <BsPlusCircleFill size={42} />
+                            </button>
+                        </form>
+                    </FormContainer>
+                    <FormContainer title="Remover">
+                        <form className="flex relative font-principal w-3/5  h-full align-center w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                            onSubmit={remove}>
+                            <input className='flex  w-full bg-slate-200 focus:outline-none p-2 mr-2 rounded-lg'
                                 type="number"
                                 placeholder="Posição"
-                                onChange={(e: any) => handleChange(e)}
+                                onChange={(e: any) => setRemoveItem(parseInt(e.target.value))}
                                 name="posicao"
-                                value={formData.posicao}
+                                value={removeItem}
                                 required
                             />
-                            <input className='flex bg-slate-200 w-full focus:outline-none p-2 rounded-lg'
-                                type="number"
-                                placeholder="Valor"
-                                onChange={(e: any) => handleChange(e)}
-                                name="valor"
-                                value={formData.valor}
-                                required
-                            />
-                        </section>
-                        <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-green-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
-                            <BsPlusCircleFill size={42} />
-                        </button>
-                    </form>
-                </FormContainer>
-                <FormContainer title="Remover">
-                    <form className="flex relative font-principal w-3/5  h-full align-center w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
-                        onSubmit={remove}>
-                        <input className='flex  w-full bg-slate-200 focus:outline-none p-2 mr-2 rounded-lg'
-                            type="number"
-                            placeholder="Posição"
-                            onChange={(e: any) => setRemoveItem(parseInt(e.target.value))}
-                            name="posicao"
-                            value={removeItem}
-                            required
-                        />
-                        <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-red-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
-                            <MdDeleteForever size={44} />
-                        </button>
-                    </form>
-                </FormContainer>
-                <FormContainer title="Pesquisar">
-                    <form className="flex font-principal align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
-                        onSubmit={obterItem}>
-                        <section className="flex relative flex-col mr-2">
-                            <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
-                                type="number"
-                                placeholder="num"
-                                onChange={(e: any) => setPosOrVal(e.target.value)}
-                                name="posOrVal"
-                                value={posOrVal}
-                                required
-                            />
-                        </section>
-                        <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-blue-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
-                            <ImSearch size={40} />
-                        </button>
-                    </form>
-                    <div className="flex font-principal font-black text-gray justify-between mt-2">
-                        <label className="hover:cursor-pointer">
-                            <input className="hover:cursor-pointer"
-                                type="radio"
-                                value="pos="
-                                checked={selectedOption === 'pos='}
-                                onChange={handleOptionChange}
-                            />
-                            Posição
-                        </label>
-                        <label className="hover:cursor-pointer">
-                            <input className="hover:cursor-pointer"
-                                type="radio"
-                                value="val="
-                                checked={selectedOption === 'val='}
-                                onChange={handleOptionChange}
-                            />
-                            Valor
-                        </label>
-                    </div>
-                </FormContainer>
-                <h1 className="flex font-principal font-black items-center text-6xl p-4 rounded-xl mx-6 text-yellow bg-lime-600">
-                    {itemObtido ? itemObtido : 'N'}
-                </h1>
-            </OperationsContainer>
-            <div className="flex justify-center my-16 flex-wrap w-5/6">
-                {tamahoMax > 0 ?
-                    list.map((item: any) => <ListItemSequencial selectedItem={item === itemObtido ? true : false}>{item}</ListItemSequencial>)
-                    : <h1 className="flex font-principal font-black text-gray-clear-2 text-4xl">
-                        Lista vazia
-                    </h1>}
-                <LoopComponentsItems length={tamahoMax - list.length}/>
-            </div>
+                            <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-red-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
+                                <MdDeleteForever size={44} />
+                            </button>
+                        </form>
+                    </FormContainer>
+                    <FormContainer title="Pesquisar">
+                        <form className="flex font-principal align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                            onSubmit={obterItem}>
+                            <section className="flex relative flex-col mr-2">
+                                <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
+                                    type="number"
+                                    placeholder="num"
+                                    onChange={(e: any) => setPosOrVal(e.target.value)}
+                                    name="posOrVal"
+                                    value={posOrVal}
+                                    required
+                                />
+                            </section>
+                            <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-blue-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
+                                <ImSearch size={40} />
+                            </button>
+                        </form>
+                        <div className="flex font-principal font-black text-gray justify-between mt-2">
+                            <label className="hover:cursor-pointer">
+                                <input className="hover:cursor-pointer"
+                                    type="radio"
+                                    value="pos="
+                                    checked={selectedOption === 'pos='}
+                                    onChange={handleOptionChange}
+                                />
+                                Posição
+                            </label>
+                            <label className="hover:cursor-pointer">
+                                <input className="hover:cursor-pointer"
+                                    type="radio"
+                                    value="val="
+                                    checked={selectedOption === 'val='}
+                                    onChange={handleOptionChange}
+                                />
+                                Valor
+                            </label>
+                        </div>
+                    </FormContainer>
+                    <h1 className="flex font-principal font-black items-center text-6xl p-4 rounded-xl mx-6 text-yellow bg-lime-600">
+                        {itemObtido ? itemObtido : 'N'}
+                    </h1>
+                </OperationsContainer>
+                <div className="flex justify-center my-16 flex-wrap w-5/6">
+                    {tamahoMax > 0 ?
+                        list.map((item: any) => <ListItemSequencial selectedItem={item === itemObtido ? true : false}>{item}</ListItemSequencial>)
+                        : <h1 className="flex font-principal font-black text-gray-clear-2 text-4xl">
+                            Lista vazia
+                        </h1>}
+                    <LoopComponentsItems length={tamahoMax - list.length} />
+                </div>
+            </>}
         </div >
     )
 }
