@@ -58,17 +58,40 @@ async function obterLSE(value: string) {
     return await axios.get(`${URL}/lista-encadeada/obter-item?${value}`)
 }
 
+
+//LDE ENDPOINTS
+async function listLDE() {
+    return await axios.get(`${URL}/lde/obterlista`)
+}
+
+async function saveLDE(data: NewData) {
+    console.log(data)
+    await axios.post(`${URL}/lde/adicionar`, data)
+}
+
+async function removeLDE(data: number) {
+    await axios.delete(`${URL}/lde/remover/${data}`)
+}
+
+async function obterLDE(value: string) {
+    return await axios.get(`${URL}/lde/obter-item?${value}`)
+}
+
 const api = {
-    listLSE,
-    saveLSE,
-    removeLSE,
-    obterLSE,
     listSequencial,
     saveSequencial,
     removeSequencial,
     obterSequencial,
     obterTamanhoMax,
-    setTamanhoMax
+    setTamanhoMax,
+    listLSE,
+    saveLSE,
+    removeLSE,
+    obterLSE,
+    listLDE,
+    saveLDE,
+    removeLDE,
+    obterLDE
 }
 
 export default api

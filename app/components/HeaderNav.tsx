@@ -5,7 +5,7 @@ export default function HeaderNav() {
         <div className="flex text-md ml-20 items-center">
             <HeaderItem route="/sequencial">Sequêncial</HeaderItem>
             <HeaderItem route="/lse">LSE</HeaderItem>
-            <HeaderItem route="/">LDE</HeaderItem>
+            <HeaderItem route="/lde">LDE</HeaderItem>
         </div>
     )
 }

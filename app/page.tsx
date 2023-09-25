@@ -25,7 +25,7 @@ export default function Home() {
             <BsArrowBarRight size={52} />
             <h1 className="mt-4">LSE</h1>
           </MainItem>
-          <MainItem load={setLoading} route="/">
+          <MainItem load={setLoading} route="/lde">
             <BsArrowLeftRight size={52} />
             <h1 className="mt-4">LDE</h1>
           </MainItem>
