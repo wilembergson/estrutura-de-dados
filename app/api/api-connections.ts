@@ -42,20 +42,20 @@ async function setTamanhoMax(tamanho: number) {
 
 //LSE ENDPOINTS
 async function listLSE() {
-    return await axios.get(`${URL}/lista-encadeada/obterlista`)
+    return await axios.get(`${URL}/lse/obterlista`)
 }
 
 async function saveLSE(data: NewData) {
     console.log(data)
-    await axios.post(`${URL}/lista-encadeada/adicionar`, data)
+    await axios.post(`${URL}/lse/adicionar`, data)
 }
 
 async function removeLSE(data: number) {
-    await axios.delete(`${URL}/lista-encadeada/remover/${data}`)
+    await axios.delete(`${URL}/lse/remover/${data}`)
 }
 
 async function obterLSE(value: string) {
-    return await axios.get(`${URL}/lista-encadeada/obter-item?${value}`)
+    return await axios.get(`${URL}/lse/obter-item?${value}`)
 }
 
 

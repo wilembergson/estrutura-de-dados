@@ -208,7 +208,7 @@ export default function LDE() {
                         </div>
                     </FormContainer>
                     <h1 className="flex font-principal font-black items-center text-6xl p-4 rounded-xl mx-6 text-yellow bg-lime-600">
-                        {itemObtido ? itemObtido : 'N'}
+                        {itemObtido ? itemObtido : '--'}
                     </h1>
                 </OperationsContainer>
                 <div className="flex justify-center my-16 flex-wrap w-5/6">
