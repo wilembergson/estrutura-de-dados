@@ -3,7 +3,6 @@ import axios from "axios";
 const URL = 'http://localhost:8080'
 
 type NewData = {
-    posicao?: number | undefined,
     valor?: number | undefined
 }
 
@@ -77,6 +76,24 @@ async function obterLDE(value: string) {
     return await axios.get(`${URL}/lde/obter-item?${value}`)
 }
 
+//PILHA ENDPOINTS
+async function listPilha() {
+    return await axios.get(`${URL}/pilha/obter-pilha`)
+}
+
+async function savePilha(data: NewData) {
+    console.log(data)
+    await axios.post(`${URL}/pilha/adicionar`, data)
+}
+
+async function removePilha() {
+    await axios.delete(`${URL}/pilha/remover-topo`)
+}
+
+async function obterTopoPilha() {
+    return await axios.get(`${URL}/pilha/obter-topo`)
+}
+
 const api = {
     listSequencial,
     saveSequencial,
@@ -91,7 +108,11 @@ const api = {
     listLDE,
     saveLDE,
     removeLDE,
-    obterLDE
+    obterLDE,
+    listPilha,
+    savePilha,
+    removePilha,
+    obterTopoPilha
 }
 
 export default api

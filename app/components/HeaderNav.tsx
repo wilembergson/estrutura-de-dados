@@ -6,6 +6,7 @@ export default function HeaderNav() {
             <HeaderItem route="/sequencial">Sequêncial</HeaderItem>
             <HeaderItem route="/lse">LSE</HeaderItem>
             <HeaderItem route="/lde">LDE</HeaderItem>
+            <HeaderItem route="/pilha">Pilha</HeaderItem>
         </div>
     )
 }

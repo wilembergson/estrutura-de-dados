@@ -21,6 +21,9 @@ const config: Config = {
         'gray-clear': '#585858',
         'gray-clear-2': '#DEDCDB',
         'main-item': '#F9F9F9'
+      },
+      height: {
+      '100': '420px'
       }
     },
   },

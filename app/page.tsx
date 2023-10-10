@@ -29,6 +29,10 @@ export default function Home() {
             <BsArrowLeftRight size={52} />
             <h1 className="mt-4">LDE</h1>
           </MainItem>
+          <MainItem load={setLoading} route="/pilha">
+            <BsArrowLeftRight size={52} />
+            <h1 className="mt-4">Pilha</h1>
+          </MainItem>
         </div>
       }
     </main>
