@@ -16,6 +16,7 @@ import { useGlobalContext } from "../context/global-context";
 import Loading from "../components/Loading";
 import ListItemLDE from "../components/ListItemLDE";
 import PilhaItem from "../components/PilhaItem";
+import FilaItem from "../components/FilaItem";
 
 export default function Fila() {
 
@@ -169,14 +170,16 @@ export default function Fila() {
                                 </h1>
                             </div>}
                     </OperationsContainer>
-                    <div className="flex flex-col flex-wrap w-52 mt-10">
+                    <div className="flex flex-col flex-wrap mt-14">
                         {list.length === 0 ?
                             <h1 className="flex font-principal font-black text-gray-clear-2 text-4xl h-full items-center">
                                 Fila vazia
                             </h1>
-                            : <div className="flex flex-col items-center">
-                                <div className="flex flex-row rounded-lg justify-center p-2">
-                                    {list.map((item: any) => <PilhaItem>{item}</PilhaItem>)}
+                            : <div className="flex flex-col items-center rounded-xl bg-gray-clear-2 shadow-md">
+                                <div className="flex flex-row rounded-lg justify-center p-1">
+                                    {list.map((item: any, index) => <FilaItem selectedItem={(itemObtido === item && index === 0) ? true : false}>
+                                        {item}
+                                    </FilaItem>)}
                                 </div>
                             </div>
                         }

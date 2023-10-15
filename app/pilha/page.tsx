@@ -168,9 +168,9 @@ export default function Pilha() {
                                 Pilha vazia
                             </h1>
                             : <div className="flex flex-col items-center">
-                                <div className="bg-yellow2 w-20 h-8 rounded-t-lg"></div>
-                                <div className="flex flex-col rounded-lg bg-yellow2 justify-center flex-wrap w-52 p-2">
-                                    {list.map((item: any) => <PilhaItem>{item}</PilhaItem>)}
+                                <div className="bg-gray-clear-2 w-20 h-8 rounded-t-lg"></div>
+                                <div className="flex flex-col rounded-lg bg-gray-clear-2 justify-center flex-wrap w-52 p-2">
+                                    {list.map((item: any, index) => <PilhaItem selectedItem={(itemObtido === item && index === 0) ? true : false}>{item}</PilhaItem>)}
                                 </div>
                             </div>
                         }
