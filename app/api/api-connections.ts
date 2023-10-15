@@ -94,6 +94,24 @@ async function obterTopoPilha() {
     return await axios.get(`${URL}/pilha/obter-topo`)
 }
 
+//FILA ENDPOINTS
+async function listFila() {
+    return await axios.get(`${URL}/fila/obter-fila`)
+}
+
+async function saveFila(data: NewData) {
+    console.log(data)
+    await axios.post(`${URL}/fila/adicionar`, data)
+}
+
+async function removeFila() {
+    await axios.delete(`${URL}/fila/remover`)
+}
+
+async function obterInicioFila() {
+    return await axios.get(`${URL}/fila/obter-primeiro`)
+}
+
 const api = {
     listSequencial,
     saveSequencial,
@@ -112,7 +130,11 @@ const api = {
     listPilha,
     savePilha,
     removePilha,
-    obterTopoPilha
+    obterTopoPilha,
+    listFila,
+    saveFila,
+    removeFila,
+    obterInicioFila
 }
 
 export default api
