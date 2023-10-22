@@ -112,6 +112,11 @@ async function obterInicioFila() {
     return await axios.get(`${URL}/fila/obter-primeiro`)
 }
 
+//ARVORE ENDPOINTS
+async function listArvore() {
+    return await axios.get(`${URL}/arvore/listar`)
+}
+
 const api = {
     listSequencial,
     saveSequencial,
@@ -134,7 +139,8 @@ const api = {
     listFila,
     saveFila,
     removeFila,
-    obterInicioFila
+    obterInicioFila,
+    listArvore
 }
 
 export default api

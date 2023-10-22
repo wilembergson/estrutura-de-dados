@@ -8,6 +8,7 @@ export default function HeaderNav() {
             <HeaderItem route="/lde">LDE</HeaderItem>
             <HeaderItem route="/pilha">Pilha</HeaderItem>
             <HeaderItem route="/fila">Fila</HeaderItem>
+            <HeaderItem route="/arvore">Árvore</HeaderItem>
         </div>
     )
 }

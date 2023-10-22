@@ -1,7 +1,8 @@
 'use client'
 import { BsArrowBarRight, BsArrowLeftRight, BsListTask } from "react-icons/bs";
-import {HiMiniQueueList} from 'react-icons/hi2'
-import {TfiLayoutColumn4Alt } from 'react-icons/tfi'
+import { HiMiniQueueList } from 'react-icons/hi2'
+import { TfiLayoutColumn4Alt } from 'react-icons/tfi'
+import { TbBinaryTree } from 'react-icons/tb'
 import Header from "./components/Header";
 import MainItem from "./components/MainItem";
 import { useEffect, useState } from "react";
@@ -9,7 +10,7 @@ import Loading from "./components/Loading";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
- 
+
   useEffect(() => {
     setLoading(false)
   }, [])
@@ -38,6 +39,10 @@ export default function Home() {
           <MainItem load={setLoading} route="/fila">
             <TfiLayoutColumn4Alt size={52} />
             <h1 className="mt-4">Fila</h1>
+          </MainItem>
+          <MainItem load={setLoading} route="/arvore">
+            <TbBinaryTree size={52} />
+            <h1 className="mt-4">Árvore</h1>
           </MainItem>
         </div>
       }

@@ -24,6 +24,12 @@ const config: Config = {
       },
       height: {
       '100': '420px'
+      },
+      margin:{
+        'lf-arrow':'-26px',
+        'lf-item':'-66px',
+        'rf-arrow':'-46px',
+        'rf-item':'-36px'
       }
     },
   },
