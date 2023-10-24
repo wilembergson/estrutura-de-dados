@@ -87,7 +87,7 @@ export default function Pilha() {
 
 
     const [selectedOption, setSelectedOption] = useState('');
-    const [posOrVal, setPosOrVal] = useState<number | undefined>(undefined)
+    const [valor, setVavor] = useState<number | undefined>(undefined)
     const handleOptionChange = (e: any) => {
         setSelectedOption(e.target.value);
     };
@@ -95,7 +95,7 @@ export default function Pilha() {
     async function obterItem(e: any) {
         e.preventDefault()
         try {
-            const res = await api.obterTopoPilha()
+            const res = await api.obterArvore(valor!.toString())
             setItemObtido(res.data)
             updatePage()
         } catch (error: any) {
@@ -125,7 +125,7 @@ export default function Pilha() {
             {loading ? <Loading /> : <>
                 <ContentTitle>Árvore</ContentTitle>
                 <div className="flex justify-between mb-4 w-4/5">
-                    <OperationsContainer optionals='flex-col h-100'>
+                    <OperationsContainer optionals='flex-col justify-between h-100'>
                         <FormContainer title="Adicionar" optionals="mb-6 max-h-52 pb-0">
                             <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
                                 onSubmit={save}>
@@ -144,40 +144,57 @@ export default function Pilha() {
                                 </button>
                             </form>
                         </FormContainer>
-                        <FormContainer title="Remover" optionals="mb-6">
-                            <form className="flex relative font-principal w-3/5 align-center w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                        <FormContainer title="Remover">
+                            <form className="flex relative font-principal w-3/5  h-full align-center w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
                                 onSubmit={remove}>
-                                <button className="flex items-center justify-center font-principal w-full p-2 text-white  bg-red-500 rounded-lg hover:opacity-70 transition duration-500">
+                                <input className='flex  w-full bg-slate-200 focus:outline-none p-2 mr-2 rounded-lg'
+                                    type="number"
+                                    placeholder="Posição"
+                                    onChange={(e: any) => setRemoveItem(parseInt(e.target.value))}
+                                    name="posicao"
+                                    value={removeItem}
+                                    required
+                                />
+                                <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-red-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
                                     <MdDeleteForever size={44} />
                                 </button>
                             </form>
                         </FormContainer>
-                        <FormContainer title="Topo">
-                            <form className="flex font-principal align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
-                                onSubmit={obterItem}>
-                                <section className="flex relative flex-col mr-2">
-                                </section>
-                                <button className="flex items-center justify-center w-full font-principal text-2xl p-2 h-full text-white  bg-blue-500 rounded-lg hover:opacity-70 transition duration-500">
-                                    <ImSearch size={40} />
-                                </button>
-                            </form>
-                        </FormContainer>
+                        <FormContainer title="Pesquisar">
+                        <form className="flex font-principal align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                            onSubmit={obterItem}>
+                            <section className="flex relative flex-col mr-2">
+                                <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
+                                    type="number"
+                                    placeholder="Valor"
+                                    onChange={(e: any) => setVavor(e.target.value)}
+                                    name="valor"
+                                    value={valor}
+                                    required
+                                />
+                            </section>
+                            <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-blue-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
+                                <ImSearch size={40} />
+                            </button>
+                        </form>
+                        
+                    </FormContainer>
                     </OperationsContainer>
-                    <div className="flex flex-col flex-wrap w-full">
-                        {arvore === undefined ?
+                    <div className="flex flex-col flex-wrap w-full ml-4">
+                        {!arvore ?
                             <h1 className="flex font-principal font-black text-gray-clear-2 text-4xl h-full items-center">
                                 Árvore vazia
                             </h1>
                             : <div className="flex flex-col items-center">
-                                <Arvore>{arvore}</Arvore>
+                                <Arvore itemObitido={itemObtido}>{arvore}</Arvore>
                             </div>
                         }
                     </div>
                 </div>
                 {itemObtido ?
-                    <div className="flex font-principal font-black fixed flex-col items-center right-52 top-1/2 bg-yellow rounded-xl overflow-hidden">
-                        <h2 className="text-lime-600 text-xl">Topo</h2>
-                        <h1 className="flex font-principal font-black items-center text-8xl p-4 text-yellow bg-lime-600">
+                    <div className="flex font-principal font-black fixed flex-col items-center right-4 top-32 bg-yellow rounded-xl overflow-hidden">
+                        <h2 className="text-lime-600 text-xl px-2">Encontrado</h2>
+                        <h1 className="flex font-principal font-black justify-center text-6xl p-4 text-yellow bg-lime-600 w-full">
                             {itemObtido}
                         </h1>
                     </div> : <></>}

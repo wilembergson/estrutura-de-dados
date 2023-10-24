@@ -118,8 +118,11 @@ async function listArvore() {
 }
 
 async function saveArvore(data: NewData) {
-    console.log(data)
     await axios.post(`${URL}/arvore/adicionar`, data)
+}
+
+async function obterArvore(value: string) {
+    return await axios.get(`${URL}/arvore/obter/${value}`)
 }
 
 const api = {
@@ -146,7 +149,8 @@ const api = {
     removeFila,
     obterInicioFila,
     listArvore,
-    saveArvore
+    saveArvore,
+    obterArvore
 }
 
 export default api
