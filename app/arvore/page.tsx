@@ -62,7 +62,7 @@ export default function Pilha() {
     async function save(e: any) {
         e.preventDefault()
         try {
-            await api.savePilha(formData)
+            await api.saveArvore(formData)
             setFormData({
                 valor: 0
             })

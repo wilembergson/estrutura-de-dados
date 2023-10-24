@@ -10,7 +10,7 @@ export default function Arvore({ children }: Props) {
 }
 
 function Node(node: any) {
-    const style = `flex font-principal font-black rounded-full bg-purple-500 text-yellow2 text-4xl p-2 h-14`
+    const style = `flex font-principal font-black rounded-full bg-purple-500 text-yellow2 text-2xl p-1`
     return (
         <section className='flex justify-center w-full'>
             {node.esq ?

@@ -117,6 +117,11 @@ async function listArvore() {
     return await axios.get(`${URL}/arvore/listar`)
 }
 
+async function saveArvore(data: NewData) {
+    console.log(data)
+    await axios.post(`${URL}/arvore/adicionar`, data)
+}
+
 const api = {
     listSequencial,
     saveSequencial,
@@ -140,7 +145,8 @@ const api = {
     saveFila,
     removeFila,
     obterInicioFila,
-    listArvore
+    listArvore,
+    saveArvore
 }
 
 export default api
