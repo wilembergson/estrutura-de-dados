@@ -125,6 +125,10 @@ async function obterArvore(value: string) {
     return await axios.get(`${URL}/arvore/obter/${value}`)
 }
 
+async function removeArvore(value: string) {
+    return await axios.delete(`${URL}/arvore/delete/${value}`)
+}
+
 const api = {
     listSequencial,
     saveSequencial,
@@ -150,7 +154,8 @@ const api = {
     obterInicioFila,
     listArvore,
     saveArvore,
-    obterArvore
+    obterArvore,
+    removeArvore
 }
 
 export default api

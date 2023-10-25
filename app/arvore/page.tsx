@@ -76,7 +76,7 @@ export default function Pilha() {
     async function remove(e: any) {
         e.preventDefault()
         try {
-            await api.removePilha()
+            await api.removeArvore(removeItem!.toString())
             setRemoveItem(0)
             setItemObtido(undefined)
             updatePage()
