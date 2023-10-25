@@ -1,5 +1,4 @@
-import { HiArrowNarrowRight } from 'react-icons/hi'
-import { BsArrowDownLeft, BsArrowDownRight, BsArrow90DegDown, BsArrow90DegRight } from 'react-icons/bs'
+import { BsArrowDownLeft, BsArrowDownRight } from 'react-icons/bs'
 
 type Props = {
     children: any,
@@ -11,6 +10,8 @@ export default function Arvore({ children, itemObitido }: Props) {
 }
 
 function Node(node: any, itemObitido?: number) {
+    const border_style = `flex justify-center h-16 py-2 w-full 
+    ${node.esq || node.dir ? 'border-b border-dashed border-yellow border-b-4 p-4' : ''}`
     const style = `flex font-principal font-black rounded-lg px-2 ${itemObitido === node.conteudo ? 'bg-lime-600' : 'bg-purple-500'}
      text-yellow2 text-2xl items-center`
     return (
@@ -25,7 +26,7 @@ function Node(node: any, itemObitido?: number) {
                     </div>
                 </div>
                 : <></>}
-            <section className='flex justify-center h-16 py-2 w-full border-b border-dashed border-yellow border-b-4 p-4'>
+            <section className={border_style}>
                 <div className={style}>
                     {node.conteudo}
                 </div>
