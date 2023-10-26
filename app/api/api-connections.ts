@@ -129,6 +129,10 @@ async function removeArvore(value: string) {
     return await axios.delete(`${URL}/arvore/delete/${value}`)
 }
 
+async function preOrdem() {
+    return await axios.get(`${URL}/arvore/preordem`)
+}
+
 const api = {
     listSequencial,
     saveSequencial,
@@ -155,7 +159,8 @@ const api = {
     listArvore,
     saveArvore,
     obterArvore,
-    removeArvore
+    removeArvore,
+    preOrdem
 }
 
 export default api

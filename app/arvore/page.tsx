@@ -67,6 +67,7 @@ export default function Pilha() {
                 valor: 0
             })
             setItemObtido(undefined)
+            setPreordem(undefined)
             updatePage()
         } catch (error: any) {
             alerts.showErrorAlert(error.response.data)
@@ -79,6 +80,7 @@ export default function Pilha() {
             await api.removeArvore(removeItem!.toString())
             setRemoveItem(0)
             setItemObtido(undefined)
+            setPreordem(undefined)
             updatePage()
         } catch (error: any) {
             alerts.showErrorAlert(error.response.data)
@@ -86,17 +88,28 @@ export default function Pilha() {
     }
 
 
-    const [selectedOption, setSelectedOption] = useState('');
-    const [valor, setVavor] = useState<number | undefined>(undefined)
-    const handleOptionChange = (e: any) => {
-        setSelectedOption(e.target.value);
-    };
+    const [preordem, setPreordem] = useState<number[] | undefined>(undefined);
+    const [valor, setValor] = useState<number | undefined>(undefined)
+
+    async function obterPreOrdem(e: any) {
+        e.preventDefault()
+        try {
+            const res = await api.preOrdem()
+            setPreordem(res.data)
+            setItemObtido(undefined)
+            updatePage()
+        } catch (error: any) {
+            alerts.showErrorAlert(error.response.data)
+            setPreordem(undefined)
+        }
+    }
 
     async function obterItem(e: any) {
         e.preventDefault()
         try {
             const res = await api.obterArvore(valor!.toString())
             setItemObtido(res.data)
+            setPreordem(undefined)
             updatePage()
         } catch (error: any) {
             alerts.showErrorAlert(error.response.data)
@@ -161,24 +174,29 @@ export default function Pilha() {
                             </form>
                         </FormContainer>
                         <FormContainer title="Pesquisar">
-                        <form className="flex font-principal align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
-                            onSubmit={obterItem}>
-                            <section className="flex relative flex-col mr-2">
-                                <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
-                                    type="number"
-                                    placeholder="Valor"
-                                    onChange={(e: any) => setVavor(e.target.value)}
-                                    name="valor"
-                                    value={valor}
-                                    required
-                                />
-                            </section>
-                            <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-blue-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
-                                <ImSearch size={40} />
+                            <form className="flex font-principal align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
+                                onSubmit={obterItem}>
+                                <section className="flex relative flex-col mr-2">
+                                    <input className='flex  w-full bg-slate-200 focus:outline-none mb-2 p-2  rounded-lg'
+                                        type="number"
+                                        placeholder="Valor"
+                                        onChange={(e: any) => setValor(e.target.value)}
+                                        name="valor"
+                                        value={valor}
+                                        required
+                                    />
+                                </section>
+                                <button className="flex items-center justify-center font-principal text-2xl px-2 h-full text-white  bg-blue-500  py-1 rounded-lg hover:opacity-70 transition duration-500">
+                                    <ImSearch size={40} />
+                                </button>
+                            </form>
+                        </FormContainer>
+                        <FormContainer title="">
+                            <button className="flex font-principal justify-center mt-4 text-md font-black px-2 h-full text-purple-500  bg-yellow  py-1 rounded-lg hover:opacity-70 transition duration-500"
+                                onClick={obterPreOrdem}>
+                                Pré-ordem
                             </button>
-                        </form>
-                        
-                    </FormContainer>
+                        </FormContainer>
                     </OperationsContainer>
                     <div className="flex flex-col flex-wrap w-full ml-4">
                         {!arvore ?
@@ -196,6 +214,15 @@ export default function Pilha() {
                         <h2 className="text-lime-600 text-xl px-2">Encontrado</h2>
                         <h1 className="flex font-principal font-black justify-center text-6xl p-4 text-yellow bg-lime-600 w-full">
                             {itemObtido}
+                        </h1>
+                    </div> : <></>}
+                {preordem ?
+                    <div className="flex font-principal font-black fixed flex-col items-center right-4 top-32 bg-yellow rounded-xl overflow-hidden">
+                        <h2 className="text-lime-600 text-xl px-2">Pre-ordem</h2>
+                        <h1 className="flex flex-wrap font-principal font-black justify-center text-lg p-4 text-yellow bg-lime-600 w-full">
+                            {preordem.map(item => <h3 className="flex mx-1 px-1 rounded-lg border border-yellow">
+                                {item}
+                            </h3>)}
                         </h1>
                     </div> : <></>}
             </>}
