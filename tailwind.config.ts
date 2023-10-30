@@ -21,6 +21,16 @@ const config: Config = {
         'gray-clear': '#585858',
         'gray-clear-2': '#DEDCDB',
         'main-item': '#F9F9F9'
+      },
+      height: {
+      '100': '420px'
+      },
+      margin:{
+        'lf-arrow':'-26px',
+        'lf-item':'-66px',
+        'rf-arrow':'-46px',
+        'rf-item':'-36px',
+        'tp-opcontainer':'-66px'
       }
     },
   },

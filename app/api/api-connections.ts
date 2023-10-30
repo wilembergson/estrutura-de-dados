@@ -3,7 +3,6 @@ import axios from "axios";
 const URL = 'http://localhost:8080'
 
 type NewData = {
-    posicao?: number | undefined,
     valor?: number | undefined
 }
 
@@ -77,6 +76,71 @@ async function obterLDE(value: string) {
     return await axios.get(`${URL}/lde/obter-item?${value}`)
 }
 
+//PILHA ENDPOINTS
+async function listPilha() {
+    return await axios.get(`${URL}/pilha/obter-pilha`)
+}
+
+async function savePilha(data: NewData) {
+    console.log(data)
+    await axios.post(`${URL}/pilha/adicionar`, data)
+}
+
+async function removePilha() {
+    await axios.delete(`${URL}/pilha/remover-topo`)
+}
+
+async function obterTopoPilha() {
+    return await axios.get(`${URL}/pilha/obter-topo`)
+}
+
+//FILA ENDPOINTS
+async function listFila() {
+    return await axios.get(`${URL}/fila/obter-fila`)
+}
+
+async function saveFila(data: NewData) {
+    console.log(data)
+    await axios.post(`${URL}/fila/adicionar`, data)
+}
+
+async function removeFila() {
+    await axios.delete(`${URL}/fila/remover`)
+}
+
+async function obterInicioFila() {
+    return await axios.get(`${URL}/fila/obter-primeiro`)
+}
+
+//ARVORE ENDPOINTS
+async function listArvore() {
+    return await axios.get(`${URL}/arvore/listar`)
+}
+
+async function saveArvore(data: NewData) {
+    await axios.post(`${URL}/arvore/adicionar`, data)
+}
+
+async function obterArvore(value: string) {
+    return await axios.get(`${URL}/arvore/obter/${value}`)
+}
+
+async function removeArvore(value: string) {
+    return await axios.delete(`${URL}/arvore/delete/${value}`)
+}
+
+async function preOrdem() {
+    return await axios.get(`${URL}/arvore/preordem`)
+}
+
+async function inOrdem() {
+    return await axios.get(`${URL}/arvore/inordem`)
+}
+
+async function posOrdem() {
+    return await axios.get(`${URL}/arvore/posordem`)
+}
+
 const api = {
     listSequencial,
     saveSequencial,
@@ -91,7 +155,22 @@ const api = {
     listLDE,
     saveLDE,
     removeLDE,
-    obterLDE
+    obterLDE,
+    listPilha,
+    savePilha,
+    removePilha,
+    obterTopoPilha,
+    listFila,
+    saveFila,
+    removeFila,
+    obterInicioFila,
+    listArvore,
+    saveArvore,
+    obterArvore,
+    removeArvore,
+    preOrdem,
+    inOrdem,
+    posOrdem
 }
 
 export default api
