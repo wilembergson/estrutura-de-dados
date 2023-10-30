@@ -81,6 +81,8 @@ export default function Pilha() {
             setRemoveItem(0)
             setItemObtido(undefined)
             setPreordem(undefined)
+            setInordem(undefined)
+            setPosordem(undefined)
             updatePage()
         } catch (error: any) {
             alerts.showErrorAlert(error.response.data)
@@ -88,7 +90,9 @@ export default function Pilha() {
     }
 
 
-    const [preordem, setPreordem] = useState<number[] | undefined>(undefined);
+    const [preordem, setPreordem] = useState<number[] | undefined>(undefined)
+    const [inordem, setInordem] = useState<number[] | undefined>(undefined)
+    const [posordem, setPosordem] = useState<number[] | undefined>(undefined)
     const [valor, setValor] = useState<number | undefined>(undefined)
 
     async function obterPreOrdem(e: any) {
@@ -96,11 +100,43 @@ export default function Pilha() {
         try {
             const res = await api.preOrdem()
             setPreordem(res.data)
+            setInordem(undefined)
+            setPosordem(undefined)
             setItemObtido(undefined)
             updatePage()
         } catch (error: any) {
             alerts.showErrorAlert(error.response.data)
             setPreordem(undefined)
+        }
+    }
+
+    async function obterInOrdem(e: any) {
+        e.preventDefault()
+        try {
+            const res = await api.inOrdem()
+            setInordem(res.data)
+            setPreordem(undefined)
+            setPosordem(undefined)
+            setItemObtido(undefined)
+            updatePage()
+        } catch (error: any) {
+            alerts.showErrorAlert(error.response.data)
+            setInordem(undefined)
+        }
+    }
+
+    async function obterPosOrdem(e: any) {
+        e.preventDefault()
+        try {
+            const res = await api.posOrdem()
+            setPosordem(res.data)
+            setInordem(undefined)
+            setPreordem(undefined)
+            setItemObtido(undefined)
+            updatePage()
+        } catch (error: any) {
+            alerts.showErrorAlert(error.response.data)
+            setInordem(undefined)
         }
     }
 
@@ -110,6 +146,8 @@ export default function Pilha() {
             const res = await api.obterArvore(valor!.toString())
             setItemObtido(res.data)
             setPreordem(undefined)
+            setPosordem(undefined)
+            setInordem(undefined)
             updatePage()
         } catch (error: any) {
             alerts.showErrorAlert(error.response.data)
@@ -138,7 +176,7 @@ export default function Pilha() {
             {loading ? <Loading /> : <>
                 <ContentTitle>Árvore</ContentTitle>
                 <div className="flex justify-between mb-4 w-4/5">
-                    <OperationsContainer optionals='flex-col justify-between h-100'>
+                    <OperationsContainer optionals='flex-col justify-between h-auto mt-tp-opcontainer'>
                         <FormContainer title="Adicionar" optionals="mb-6 max-h-52 pb-0">
                             <form className="flex font-principal w-3/5 align-between w-40 p-3 border-2 border-yellow rounded-b-lg rounded-tr-lg"
                                 onSubmit={save}>
@@ -196,6 +234,14 @@ export default function Pilha() {
                                 onClick={obterPreOrdem}>
                                 Pré-ordem
                             </button>
+                            <button className="flex font-principal justify-center mt-4 text-md font-black px-2 h-full text-purple-500  bg-yellow  py-1 rounded-lg hover:opacity-70 transition duration-500"
+                                onClick={obterInOrdem}>
+                                In-ordem
+                            </button>
+                            <button className="flex font-principal justify-center mt-4 text-md font-black px-2 h-full text-purple-500  bg-yellow  py-1 rounded-lg hover:opacity-70 transition duration-500"
+                                onClick={obterPosOrdem}>
+                                Pós-ordem
+                            </button>
                         </FormContainer>
                     </OperationsContainer>
                     <div className="flex flex-col flex-wrap w-full ml-4">
@@ -221,6 +267,24 @@ export default function Pilha() {
                         <h2 className="text-lime-600 text-xl px-2">Pre-ordem</h2>
                         <h1 className="flex flex-wrap font-principal font-black justify-center text-lg p-4 text-yellow bg-lime-600 w-full">
                             {preordem.map(item => <h3 className="flex mx-1 px-1 rounded-lg border border-yellow">
+                                {item}
+                            </h3>)}
+                        </h1>
+                    </div> : <></>}
+                {inordem ?
+                    <div className="flex font-principal font-black fixed flex-col items-center right-4 top-32 bg-yellow rounded-xl overflow-hidden">
+                        <h2 className="text-lime-600 text-xl px-2">In-ordem</h2>
+                        <h1 className="flex flex-wrap font-principal font-black justify-center text-lg p-4 text-yellow bg-lime-600 w-full">
+                            {inordem.map(item => <h3 className="flex mx-1 px-1 rounded-lg border border-yellow">
+                                {item}
+                            </h3>)}
+                        </h1>
+                    </div> : <></>}
+                {posordem ?
+                    <div className="flex font-principal font-black fixed flex-col items-center right-4 top-32 bg-yellow rounded-xl overflow-hidden">
+                        <h2 className="text-lime-600 text-xl px-2">Pós-ordem</h2>
+                        <h1 className="flex flex-wrap font-principal font-black justify-center text-lg p-4 text-yellow bg-lime-600 w-full">
+                            {posordem.map(item => <h3 className="flex mx-1 px-1 rounded-lg border border-yellow">
                                 {item}
                             </h3>)}
                         </h1>

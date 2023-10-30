@@ -29,7 +29,8 @@ const config: Config = {
         'lf-arrow':'-26px',
         'lf-item':'-66px',
         'rf-arrow':'-46px',
-        'rf-item':'-36px'
+        'rf-item':'-36px',
+        'tp-opcontainer':'-66px'
       }
     },
   },

@@ -133,6 +133,14 @@ async function preOrdem() {
     return await axios.get(`${URL}/arvore/preordem`)
 }
 
+async function inOrdem() {
+    return await axios.get(`${URL}/arvore/inordem`)
+}
+
+async function posOrdem() {
+    return await axios.get(`${URL}/arvore/posordem`)
+}
+
 const api = {
     listSequencial,
     saveSequencial,
@@ -160,7 +168,9 @@ const api = {
     saveArvore,
     obterArvore,
     removeArvore,
-    preOrdem
+    preOrdem,
+    inOrdem,
+    posOrdem
 }
 
 export default api
